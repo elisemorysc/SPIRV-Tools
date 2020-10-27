@@ -1,6 +1,6 @@
 @PACKAGE_INIT@
 
-find_package(SPIRV-Headers 1.5.1 EXACT CONFIG REQUIRED)
+find_package(SPIRV-Headers CONFIG REQUIRED)
 
 check_required_components("SPIRV-Tools")
 
