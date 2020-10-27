@@ -247,16 +247,24 @@ set_property(TARGET SPIRV-Tools-opt PROPERTY FOLDER "SPIRV-Tools libraries")
 spvtools_check_symbol_exports(SPIRV-Tools-opt)
 
 if(ENABLE_SPIRV_TOOLS_INSTALL)
-  install(TARGETS SPIRV-Tools-opt EXPORT SPIRV-Tools-optTargets
-    RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
-    LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
-    ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR})
-  export(EXPORT SPIRV-Tools-optTargets FILE SPIRV-Tools-optTargets.cmake)
+  if(HUNTER_ENABLED)
+    install(TARGETS SPIRV-Tools-opt
+      EXPORT ${SPIRV_TOOLS}Targets
+      RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
+      LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
+      ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR})
+  else(HUNTER_ENABLED)
+    install(TARGETS SPIRV-Tools-opt EXPORT SPIRV-Tools-optTargets
+      RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
+      LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
+      ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR})
+    export(EXPORT SPIRV-Tools-optTargets FILE SPIRV-Tools-optTargets.cmake)
 
-  spvtools_config_package_dir(SPIRV-Tools-opt PACKAGE_DIR)
-  install(EXPORT SPIRV-Tools-optTargets FILE SPIRV-Tools-optTargets.cmake
-  	DESTINATION ${PACKAGE_DIR})
+    spvtools_config_package_dir(SPIRV-Tools-opt PACKAGE_DIR)
+    install(EXPORT SPIRV-Tools-optTargets FILE SPIRV-Tools-optTargets.cmake
+  	  DESTINATION ${PACKAGE_DIR})
 
-  spvtools_generate_config_file(SPIRV-Tools-opt)
-  install(FILES ${CMAKE_BINARY_DIR}/SPIRV-Tools-optConfig.cmake DESTINATION ${PACKAGE_DIR})
+    spvtools_generate_config_file(SPIRV-Tools-opt)
+    install(FILES ${CMAKE_BINARY_DIR}/SPIRV-Tools-optConfig.cmake DESTINATION ${PACKAGE_DIR})
+  endif(HUNTER_ENABLED)
 endif(ENABLE_SPIRV_TOOLS_INSTALL)

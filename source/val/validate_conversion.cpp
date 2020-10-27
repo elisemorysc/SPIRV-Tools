@@ -469,7 +469,7 @@ spv_result_t ConversionPass(ValidationState_t& _, const Instruction* inst) {
                << "or scalar: " << spvOpcodeString(opcode);
 
       if (_.version() >= SPV_SPIRV_VERSION_WORD(1, 5) ||
-          _.HasExtension(kSPV_KHR_physical_storage_buffer)) {
+          _.HasExtension(kSPV_EXT_physical_storage_buffer)) {
         const bool result_is_int_vector = _.IsIntVectorType(result_type);
         const bool result_has_int32 =
             _.ContainsSizedIntOrFloatType(result_type, SpvOpTypeInt, 32);

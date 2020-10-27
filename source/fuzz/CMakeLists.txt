@@ -213,18 +213,25 @@ if(SPIRV_BUILD_FUZZER)
   spvtools_check_symbol_exports(SPIRV-Tools-fuzz)
 
   if(ENABLE_SPIRV_TOOLS_INSTALL)
-      install(TARGETS SPIRV-Tools-fuzz EXPORT SPIRV-Tools-fuzzTargets
+      if(HUNTER_ENABLED)
+        install(TARGETS SPIRV-Tools-fuzz EXPORT ${SPIRV_TOOLS}Targets
+          RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
+          LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
+          ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR})
+      else(HUNTER_ENABLED)
+        install(TARGETS SPIRV-Tools-fuzz EXPORT SPIRV-Tools-fuzzTargets
             RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
             LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
             ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR})
-      export(EXPORT SPIRV-Tools-fuzzTargets FILE SPIRV-Tools-fuzzTarget.cmake)
+        export(EXPORT SPIRV-Tools-fuzzTargets FILE SPIRV-Tools-fuzzTarget.cmake)
 
-      spvtools_config_package_dir(SPIRV-Tools-fuzz PACKAGE_DIR)
-      install(EXPORT SPIRV-Tools-fuzzTargets FILE SPIRV-Tools-fuzzTarget.cmake
+        spvtools_config_package_dir(SPIRV-Tools-fuzz PACKAGE_DIR)
+        install(EXPORT SPIRV-Tools-fuzzTargets FILE SPIRV-Tools-fuzzTarget.cmake
             DESTINATION ${PACKAGE_DIR})
 
-      spvtools_generate_config_file(SPIRV-Tools-fuzz)
-      install(FILES ${CMAKE_BINARY_DIR}/SPIRV-Tools-fuzzConfig.cmake DESTINATION ${PACKAGE_DIR})
+        spvtools_generate_config_file(SPIRV-Tools-fuzz)
+        install(FILES ${CMAKE_BINARY_DIR}/SPIRV-Tools-fuzzConfig.cmake DESTINATION ${PACKAGE_DIR})
+      endif(HUNTER_ENABLED)
   endif(ENABLE_SPIRV_TOOLS_INSTALL)
 
 endif(SPIRV_BUILD_FUZZER)
