@@ -34,6 +34,7 @@ HunterGate(
 project(spirv-tools VERSION 2020.1)
 enable_testing()
 set(SPIRV_TOOLS "SPIRV-Tools")
+set(SPIRV_TOOLS_NS ${SPIRV_TOOLS}::)
 
 hunter_add_package(SPIRV-Headers)
 find_package(SPIRV-Headers CONFIG REQUIRED)

@@ -221,7 +221,7 @@ if(SPIRV_BUILD_FUZZER)
 
       spvtools_config_package_dir(SPIRV-Tools-fuzz PACKAGE_DIR)
       install(EXPORT SPIRV-Tools-fuzzTargets FILE SPIRV-Tools-fuzzTarget.cmake
-            DESTINATION ${PACKAGE_DIR})
+              NAMESPACE ${SPIRV_TOOLS_NS} DESTINATION ${PACKAGE_DIR})
 
       spvtools_generate_config_file(SPIRV-Tools-fuzz)
       install(FILES ${CMAKE_BINARY_DIR}/SPIRV-Tools-fuzzConfig.cmake DESTINATION ${PACKAGE_DIR})
