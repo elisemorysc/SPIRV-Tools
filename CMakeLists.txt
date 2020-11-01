@@ -12,7 +12,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-cmake_minimum_required(VERSION 2.8.12)
+cmake_minimum_required(VERSION 3.2)
 if (POLICY CMP0048)
   cmake_policy(SET CMP0048 NEW)
 endif()
@@ -24,9 +24,20 @@ if (POLICY CMP0054)
 endif()
 set_property(GLOBAL PROPERTY USE_FOLDERS ON)
 
-project(spirv-tools)
+include(cmake/HunterGate.cmake)
+HunterGate(
+    URL "https://github.com/cpp-pm/hunter/archive/v0.23.277.tar.gz"
+    SHA1 "c0dcea91a47f0f4371e32ebc8389a4a2b2822fe5"
+    FILEPATH "${CMAKE_CURRENT_LIST_DIR}/cmake/HunterConfig.cmake"
+)
+
+project(spirv-tools VERSION 2020.1)
 enable_testing()
 set(SPIRV_TOOLS "SPIRV-Tools")
+
+hunter_add_package(SPIRV-Headers)
+find_package(SPIRV-Headers CONFIG REQUIRED)
+set(SPIRV-Headers_SOURCE_DIR ${SPIRV-HEADERS_ROOT})
 
 include(GNUInstallDirs)
 
