@@ -26,8 +26,8 @@ set_property(GLOBAL PROPERTY USE_FOLDERS ON)
 
 include(cmake/HunterGate.cmake)
 HunterGate(
-    URL "https://github.com/cpp-pm/hunter/archive/v0.23.277.tar.gz"
-    SHA1 "c0dcea91a47f0f4371e32ebc8389a4a2b2822fe5"
+    URL "https://github.com/cpp-pm/hunter/archive/v0.23.280.tar.gz"
+    SHA1 "065d44b4e42e959eb5bdf1f6fdbf9c5c7c2762bd"
     FILEPATH "${CMAKE_CURRENT_LIST_DIR}/cmake/HunterConfig.cmake"
 )
 
@@ -42,8 +42,10 @@ set(SPIRV-Headers_SOURCE_DIR ${SPIRV-HEADERS_ROOT})
 
 include(GNUInstallDirs)
 
-set(CMAKE_POSITION_INDEPENDENT_CODE ON)
-set(CMAKE_CXX_STANDARD 11)
+if(NOT HUNTER_ENABLED)
+  set(CMAKE_POSITION_INDEPENDENT_CODE ON)
+  set(CMAKE_CXX_STANDARD 11)
+endif()
 
 option(SPIRV_ALLOW_TIMERS "Allow timers via clock_gettime on supported platforms" ON)
 
@@ -200,7 +202,9 @@ if(NOT COMMAND find_host_program)
 endif()
 
 # Tests require Python3
-find_host_package(PythonInterp 3 REQUIRED)
+if(NOT SPIRV_SKIP_TESTS)
+  find_host_package(PythonInterp 4 REQUIRED)
+endif()
 
 # Check for symbol exports on Linux.
 # At the moment, this check will fail on the OSX build machines for the Android NDK.
